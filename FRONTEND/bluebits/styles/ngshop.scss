@@ -1,0 +1,36 @@
+//make sure you import the file in order wise
+
+//Base
+@import '~normalize.css/normalize.css';
+@import './base/colors.scss';
+@import './base/fonts.scss';
+@import './base/mixin.scss';
+
+
+//Libraries we use primeng libraries
+@import '~primeicons/primeicons.css';
+@import '~primeng/resources/themes/saga-blue/theme.css';
+@import '~primeng/resources/primeng.min.css';
+
+@import '~primeflex/primeflex.css';
+@import '~animate.css/animate.css';
+@import './base/configuration.scss';
+
+//Pages
+@import './apps/shop/pages/home-page.scss';
+@import './apps/shop/pages/products-list-page.scss';
+
+//shared
+@import './apps/shop/shared/header.scss';
+@import './apps/shop/shared/footer.scss';
+
+//libs
+@import './libs/ui/ui.scss';
+
+
+.container{
+  width: 100%;
+  padding: 15px;
+  margin: 0 auto;
+  background-color: #F4F4F4;
+}
