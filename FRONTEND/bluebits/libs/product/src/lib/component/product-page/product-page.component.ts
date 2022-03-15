@@ -10,10 +10,10 @@ import { ProductsService } from "../../services/products.service";
   styleUrls: ['./product-page.component.scss']
 })
 export class ProductPageComponent implements OnInit, OnDestroy {
-  product: Product;
+ // product: Product;
   endSubs$: Subject<any> = new Subject;
   quantity: number;
-
+ public product: any[] = [];
   constructor(
     private prodService: ProductsService,
     private route: ActivatedRoute
@@ -32,14 +32,23 @@ export class ProductPageComponent implements OnInit, OnDestroy {
 
 }
   private _getProduct(id: string){
-      this.prodService.getProduct(id).pipe(takeUntil(this.endSubs$)).subscribe(res =>{
-        this.product = res;
+      this.prodService.getProductById(id).then((res:any) =>{
+        if(res && !res.status){
+          if(res.response && res.response.length){
+            this.product = res.response
+            console.log(this.product);
+          }
+          else{
+            console.log('error')
+          }
+        }
       })
   }
-  addProductToCart(){
+ 
 
-  }
+  
+addProductToCart(){
 
-
+}
 
 }

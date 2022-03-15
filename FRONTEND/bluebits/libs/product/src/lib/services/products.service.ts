@@ -35,6 +35,16 @@ export class ProductsService extends BaseService {
     }
 
 
+    getProductById(productId : string): any{
+      let  headers = new HttpHeaders({
+        'Authorization':'TgBLAFQAcgBhAEQAZQByAHMAOgBVAHMAZQByAEkARAA9ADEA',
+      });
+       let options = { headers: headers };
+    const url = `${environment.apiURL}Product/GetById/${productId}`;
+     return this.get(url,options);
+    }
+
+
 
 
 
