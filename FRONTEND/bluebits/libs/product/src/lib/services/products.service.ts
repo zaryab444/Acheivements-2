@@ -26,22 +26,14 @@ export class ProductsService extends BaseService {
 
 
   getAllProducts(): any{
-    let headers = new HttpHeaders({
-          'Authorization':'TgBLAFQAcgBhAEQAZQByAHMAOgBVAHMAZQByAEkARAA9ADEA',
-      });
-      let options = { headers: headers };
-    const url = `${environment.apiURL}Product/GetById`;
-     return this.get(url,options);
+    const url = `${environment.apiURL}Product/getallproduct`;
+     return this.get(url);
     }
 
 
-    getProductById(productId : string): any{
-      let  headers = new HttpHeaders({
-        'Authorization':'TgBLAFQAcgBhAEQAZQByAHMAOgBVAHMAZQByAEkARAA9ADEA',
-      });
-       let options = { headers: headers };
-    const url = `${environment.apiURL}Product/GetById/${productId}`;
-     return this.get(url,options);
+    getProductById(obj :any): any{
+    const url = `${environment.apiURL}Product/ProductSearch`;
+     return this.post(url,obj);
     }
 
 
