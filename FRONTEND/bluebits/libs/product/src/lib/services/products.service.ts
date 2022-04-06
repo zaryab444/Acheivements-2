@@ -18,7 +18,7 @@ export interface FoodListModelServerResponse {
 
 
 export class ProductsService extends BaseService {
-
+   postid;
   apiURLProducts = environment.apiURL + 'Product/GetById';
   constructor(_http: HttpClient) {
     super(_http);
@@ -34,6 +34,15 @@ export class ProductsService extends BaseService {
     getProductById(obj :any): any{
     const url = `${environment.apiURL}Product/ProductSearch`;
      return this.post(url,obj);
+    }
+
+    getProductByIds(obj :any): any{
+    const url = `${environment.apiURL}Product/ProductSearch`;
+      this.postid
+     return this.post(url,obj).subscribe(data=>{
+       this.postid = data.Id
+     });
+     
     }
 
 
