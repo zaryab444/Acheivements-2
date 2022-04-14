@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 
 @Component({
@@ -7,9 +8,11 @@ import { CartService } from '../../services/cart.service';
   styleUrls: ['./cart-icon.component.scss']
 })
 export class CartIconComponent implements OnInit {
-
+ product = [];
  cartCount = 0;
-  constructor(private cartService: CartService) { }
+
+  constructor(private cartService: CartService,
+    private router: Router,) { }
 
  ngOnInit(): void {
 
@@ -23,6 +26,10 @@ export class CartIconComponent implements OnInit {
 
 
 
+  }
+
+   updateProduct(){
+    this.router.navigateByUrl(`cart`)
   }
 
 

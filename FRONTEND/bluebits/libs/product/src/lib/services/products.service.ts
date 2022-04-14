@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from "rxjs";
-import {environment} from '@env/environment';
+import { environment } from '@env/environment';
 import { Product } from "../models/product";
 import { catchError, map, tap } from 'rxjs/operators';
 import { BaseService } from "./base.service";
 export interface FoodListModelServerResponse {
   count: number;
   stores: Product[];
-  }
+}
 
 
 
@@ -18,32 +18,23 @@ export interface FoodListModelServerResponse {
 
 
 export class ProductsService extends BaseService {
-   postid;
+  postid;
   apiURLProducts = environment.apiURL + 'Product/GetById';
   constructor(_http: HttpClient) {
     super(_http);
-   }
+  }
 
 
-  getAllProducts(): any{
+  getAllProducts(): any {
     const url = `${environment.apiURL}Product/getallproduct`;
-     return this.get(url);
-    }
+    return this.get(url);
+  }
 
 
-    getProductById(obj :any): any{
+  getProductById(obj: any): any {
     const url = `${environment.apiURL}Product/ProductSearch`;
-     return this.post(url,obj);
-    }
-
-    getProductByIds(obj :any): any{
-    const url = `${environment.apiURL}Product/ProductSearch`;
-      this.postid
-     return this.post(url,obj).subscribe(data=>{
-       this.postid = data.Id
-     });
-     
-    }
+    return this.post(url, obj);
+  }
 
 
 
@@ -54,28 +45,30 @@ export class ProductsService extends BaseService {
 
 
 
-  getProducts(categoriesFilter?: string[]): Observable  <Product[]>{
+
+
+  getProducts(categoriesFilter?: string[]): Observable<Product[]> {
     //we use http params because in postman we filter product by category in params postman thats why we use http params
     let params = new HttpParams
-    if(categoriesFilter){
+    if (categoriesFilter) {
       //we use array join to seperate the more categories ids when we check in postman
-      params = params.append('categories',categoriesFilter.join(','),);
+      params = params.append('categories', categoriesFilter.join(','),);
       console.log(params);
     }
-    return this.get(this.apiURLProducts,{params: params});
+    return this.get(this.apiURLProducts, { params: params });
   }
 
   //we remove array in <Category model> because its single get by id
-  getProduct(productId: string): Observable  <Product>{
-    return this.get(`${this.apiURLProducts}/${productId}` )
+  getProduct(productId: string): Observable<Product> {
+    return this.get(`${this.apiURLProducts}/${productId}`)
   }
 
   createProduct(productData: FormData): Observable<Product> {
     return this.post(this.apiURLProducts, productData);
   }
 
-  updateProduct(productData: FormData , productid: string): Observable<Product>{
-    return this.put(`${this.apiURLProducts}/${productid}`,productData)
+  updateProduct(productData: FormData, productid: string): Observable<Product> {
+    return this.put(`${this.apiURLProducts}/${productid}`, productData)
   }
 
 
@@ -84,7 +77,7 @@ export class ProductsService extends BaseService {
     return this.delete(`${this.apiURLProducts}/${productId}`);
   }
 
-//for dashboard
+  //for dashboard
   getProductsCount(): Observable<number> {
     return this
       .get(`${this.apiURLProducts}/get/count`)

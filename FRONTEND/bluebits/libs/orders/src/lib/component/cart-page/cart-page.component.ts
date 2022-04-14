@@ -1,6 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Product, ProductsService } from '@bluebits/product';
+import {  Product, ProductsService } from '@bluebits/product';
 import { Subject, takeUntil } from 'rxjs';
 import { cartItemDetailed } from '../../models/cart';
 import { CartService } from '../../services/cart.service';
@@ -14,8 +15,8 @@ export class CartPageComponent implements OnInit, OnDestroy {
 cartItemsDetailed : cartItemDetailed[] = [];
   cartCount = 0;
   endsubs$ : Subject<any> = new Subject();
-  zaryab : any;
-  zaryab2;
+  products:Product;
+  public product: any[] = [];
   constructor(
     private router: Router, 
     private cartService: CartService, 
@@ -24,8 +25,15 @@ cartItemsDetailed : cartItemDetailed[] = [];
   ) { }
 
   ngOnInit(): void {
-
-   this._getCartDetails();
+  //  this.route.params.subscribe(params =>{
+  //     if(params.id){
+  //      this._getCartDetails(params.id);
+  //     }
+    // })
+         
+      if(this.products.productId){
+         this._getCartDetails(this.products.productId);
+      }
     
   }
 
@@ -34,27 +42,39 @@ cartItemsDetailed : cartItemDetailed[] = [];
     this.endsubs$.complete();
   }
 
-  private _getCartDetails(){
+  private _getCartDetails(data){
        this.cartService.cart$.pipe(takeUntil(this.endsubs$)).subscribe((respCart)=>{
          this.cartItemsDetailed =[];
        this.cartCount = respCart?.items.length ?? 0;
        respCart.items.forEach((cartItem)=>{
-        // let data
-    //      const numberValue = Number(data)
+        
+        //let data
+    const numberValue = Number(data)
 
-    // const obj = {
-    //  Product:this.zaryab.productId
-    // }
-         this.productService.getProductByIds(cartItem.productId).subscribe(respProduct =>{
+     const obj = {Id : numberValue }
+     // const obj = {Id : 1 }
+        this.productService.getProductById(obj)
+            .then((res: any) => {
+            
+                if (res && !res.status && res.response.length) {
+                   this.product = res.response;
+                  
+           this.cartItemsDetailed.push({
+             product: res,
+             qunatity: cartItem.quantity
+           })  
+                }
+            }).catch((err: HttpErrorResponse) => (console.log))
+        //  this.productService.getProductById(obj).subscribe(respProduct =>{
                
         
-           console.log(respProduct)
+        //    console.log(respProduct)
 
-           this.cartItemsDetailed.push({
-             product: respProduct,
-             qunatity: cartItem.quantity
-           })
-         })
+        //    this.cartItemsDetailed.push({
+        //      product: respProduct,
+        //      qunatity: cartItem.quantity
+        //    })
+        //  })
        })
        })
   }
